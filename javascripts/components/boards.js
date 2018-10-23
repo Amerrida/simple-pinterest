@@ -1,14 +1,15 @@
 import{loadBoards} from '../data/boardsData.js';
+import{initialPinView} from './pins.js';
 
 
 //place data on the board//
 
 const bindEvents = () => {
     $('#user-boards').on('click','.board-card', (e) => {
-    const clickedBoardID = $(e.target).closest('.board-card').attr('id');
+    const clickedBoardId = $(e.target).closest('.board-card').attr('id');
     $('#boards-page').hide();
     $('#pins-page').show();
-    console.log (clickedBoardId);
+    initialPinView(clickedBoardId);
     })
 }
 
