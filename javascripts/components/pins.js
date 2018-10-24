@@ -6,6 +6,13 @@ const shortenLink = (full_url) => {
     return hostname;
 }
 
+const bindEvents = () => {           
+$('#toBoardsBtn').click(() => {
+    $('#pins-page').hide();
+    $('#boards-page').show();    
+})
+}
+
 const writePins = (pins) => {
    let domString = ''; 
    pins.forEach(pin => {
@@ -21,10 +28,11 @@ const writePins = (pins) => {
    $('#pins-on-board').html(domString);
 }
 
-const initialPinView = (boardId) => {
+const intializePinView = (boardId) => {
     loadPinsForBoard (boardId)
     .then(data => {
     writePins(data);
+    bindEvents();
 })
 .catch (error => {
     console.error ('things mess up in pins', error);
@@ -33,4 +41,4 @@ const initialPinView = (boardId) => {
 
 }
 
-export {initialPinView};
+export {intializePinView};

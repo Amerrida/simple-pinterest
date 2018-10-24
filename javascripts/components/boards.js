@@ -1,6 +1,7 @@
-import{loadBoards} from '../data/boardsData.js';
-import{initialPinView} from './pins.js';
 
+import {loadBoards} from '../data/boardsData.js'
+import {intializePinView} from './pins.js'
+import {loadPinsOnBoard} from '../data/pinsData.js'
 
 //place data on the board//
 
@@ -9,7 +10,7 @@ const bindEvents = () => {
     const clickedBoardId = $(e.target).closest('.board-card').attr('id');
     $('#boards-page').hide();
     $('#pins-page').show();
-    initialPinView(clickedBoardId);
+    intializePinView(clickedBoardId);
     })
 }
 
@@ -21,7 +22,7 @@ const writeBoards = (boards)  => {
           <img class="card-img-top" src="./db/default-img.jpeg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">${board.name}</h5>
-            <p class="card-text">42 Pins</p>
+            <p class="card-text">${board.pins.length}pins</p>
           </div>
       </div>
         `
@@ -29,9 +30,12 @@ const writeBoards = (boards)  => {
     $('#user-boards').html(domString);
  }
 const initalizeBoardView = () => {
+    //first promise//
     loadBoards().then((boards) => {
-    writeBoards(boards);
-    bindEvents();
+        return loadPinsOnBoard (boards);  //second promise//
+    }).then((boardsWithPins) => {
+        writeBoards(boardsWithPins);
+    bindEvents();  
     }).catch((error) => {
         console.error(error);
     })
